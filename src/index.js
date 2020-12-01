@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
 import FormComponent from './Components/FormComponent';
 import PDFComponent from './Components/PDFComponent';
 
@@ -16,4 +15,3 @@ ReactDOM.render(
 );
 
 
-reportWebVitals();

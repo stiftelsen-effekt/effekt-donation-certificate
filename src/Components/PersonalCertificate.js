@@ -1,6 +1,6 @@
+
 import React from 'react';
-const PDFDocument = require('pdfkit').default;
-const blobStream  = require('blob-stream');
+import jsPDF from 'jspdf';
 
 export default function PersonalCertificate() {
 
@@ -9,28 +9,17 @@ export default function PersonalCertificate() {
     const [amount, setAmount] = React.useState("");
   
     const handleSubmit = (event) => {
-      console.log(`
-        From: ${from}
-        To: ${to}
-        Amount: ${amount}
-      `);
 
-        // // Create a document
-        // var doc = new PDFDocument;
+      var doc = new jsPDF('landscape');
 
-        // // pipe the document to a blob
-        // var stream = doc.pipe(blobStream());
+      doc.addImage(bilde, 'JPEG', 0, 0, 320, 220);
 
-        // //PDF
-        // doc.fontSize(25).text("This is a PDF Doc");
+      doc.text(100, 67, `${from}`);
 
-        // // end and display the document in the iframe to the right
-        // doc.end();
-        // stream.on('finish', function() {
-        //     // const blob = stream.toBlob('application/pdf');
-        //   });
-  
-      event.preventDefault();
+      doc.text(193, 67, `${to}`);
+
+
+      doc.save("generated.pdf");
     }
   
     return (
@@ -38,24 +27,23 @@ export default function PersonalCertificate() {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label> Fra:</label>
-                        <input name="from" type="text" value={from} onChange={e => setFrom(e.target.value)} className="form-control"/>
+                        <input name="from" type="text" className="form-control" value={from} onChange={e => setFrom(e.target.value)} />
                     </div>
 
                     <div className="form-group">
                         <label> Til:</label>
-                        <input name="to" type="text" value={to} onChange={e => setTo(e.target.value)} className="form-control"/>
+                        <input name="to" type="text" className="form-control" value={to} onChange={e => setTo(e.target.value)} />
                     </div>
 
                     <div className="form-group">
                         <label> Amount:</label>
-                        <input name="amount" type="text" value={amount} onChange={e => setAmount(e.target.value)} className="form-control"/>
+                        <input name="amount" type="text" className="form-control" value={amount} onChange={e => setAmount(e.target.value)} />
                     </div>
 
                     <button type="submit" value="Submit" className="btn btn-dark">Vis Sertifikat</button>
                 </form>
-
-                <iframe width="600" height="775"></iframe>
             </React.Fragment>
     );
+
 
 }

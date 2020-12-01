@@ -11,12 +11,12 @@ export default class FormComponent extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <Tabs defaultActiveKey="personlig" 
+                        <Tabs defaultActiveKey="personlig" className="col-12"
                               id="controlled-tab-example">
-                            <Tab eventKey="personlig" title="Personlig Sertifikat">
+                            <Tab eventKey="personlig" title="Personlig Sertifikat" className="col-6">
                                 <PersonalCertificate/>
                             </Tab>
-                            <Tab eventKey="gave" title="Gave-Sertifikat">
+                            <Tab eventKey="gave" title="Gave-Sertifikat" className="col-6">
                                 <GiftCertificate/>
                             </Tab>
                         </Tabs>
