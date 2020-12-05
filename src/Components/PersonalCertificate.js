@@ -14,9 +14,9 @@ export default function PersonalCertificate() {
 
     //   doc.addImage(bilde, 'JPEG', 0, 0, 320, 220);
 
-      doc.text(100, 67, `${from}`);
+      doc.text(193, 67, `${from}`);
 
-      doc.text(193, 67, `${to}`);
+      doc.text(100, 67, `${to}`);
 
 
       doc.save("generated.pdf");
@@ -26,13 +26,13 @@ export default function PersonalCertificate() {
             <React.Fragment>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label> Fra:</label>
-                        <input name="from" type="text" className="form-control" value={from} onChange={e => setFrom(e.target.value)} />
+                        <label> Til:</label>
+                        <input name="to" type="text" className="form-control" value={to} onChange={e => setTo(e.target.value)} />
                     </div>
 
                     <div className="form-group">
-                        <label> Til:</label>
-                        <input name="to" type="text" className="form-control" value={to} onChange={e => setTo(e.target.value)} />
+                        <label> Fra:</label>
+                        <input name="from" type="text" className="form-control" value={from} onChange={e => setFrom(e.target.value)} />
                     </div>
 
                     <div className="form-group">
