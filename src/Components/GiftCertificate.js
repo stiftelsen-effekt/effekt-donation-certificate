@@ -1,42 +1,99 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Container, Row } from 'react-bootstrap';
+import jsPDF from 'jspdf';
+import exampleImg from '../GiftCertificates/HKI.js'
 
-export default function GiftCertificate() {
+export default class GiftCertificateForm extends Component {
+  
+    constructor () {
+        super()
+      
+        this.state = {
+            formControls: {
+                fromName: {
+                  value: ''
+                },
+                toName: {
+                  value: ''
+                },
+                amount: {
+                  value: ''
+                }
+            }
+        }
+    }
+    
+    changeHandler = event => {
+        const name = event.target.name;
+        const value = event.target.value;
+      
+        this.setState({
+          formControls: {
+              ...this.state.formControls,
+              [name]: {
+              ...this.state.formControls[name],
+              value
+            }
+          }
+        }, function(){this.generateCertificate()});
+    }
 
-    const [from, setFrom] = React.useState("");
-    const [to, setTo] = React.useState("");
-    const [amount, setAmount] = React.useState("");
+    generateCertificate = () => {
+        var pdf = new jsPDF('landscape');
   
-    const handleSubmit = (event) => {
-      console.log(`
-        From: ${from}
-        To: ${to}
-        Amount: ${amount}
-      `);
+        pdf.addImage(exampleImg, 'JPEG', 0, 0, 320, 220);
   
-      event.preventDefault();
+        pdf.text(100, 67, `${this.state.formControls.toName.value}`);
+  
+        pdf.text(193, 67, `${this.state.formControls.fromName.value}`);
+
+        var iframe = document.getElementById('pdf');
+                        
+        iframe.src = pdf.output('datauristring');
+  
+    }
+    
+     render() {
+        return (
+            <Container>
+                <form>
+                    <div className="form-group">
+                        <label>Til:</label>
+                        <input type="text" 
+                            className="form-control"
+                            name="toName" 
+                            value={this.state.formControls.toName.value} 
+                            onChange={this.changeHandler} 
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Fra:</label>
+                        <input type="text" 
+                            className="form-control"
+                            name="fromName" 
+                            value={this.state.formControls.fromName.value} 
+                            onChange={this.changeHandler} 
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Beløp:</label>
+                        <input type="text" 
+                            className="form-control"
+                            name="amount" 
+                            value={this.state.formControls.amount.value} 
+                            onChange={this.changeHandler} 
+                        />
+                    </div>
+                </form> 
+                <iframe className="col-12" id="pdf" height="780px"></iframe>
+                <button className="btn btn-dark col-12" id="downloadButton" onClick={this.generateCertificate}>Jeg er fornøyd, last ned sertifikat</button>
+
+            </Container>
+
+        );
     }
   
-    return (
-            <React.Fragment>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label> Fra:</label>
-                        <input name="from" type="text" value={from} onChange={e => setFrom(e.target.value)} className="form-control"/>
-                    </div>
-
-                    <div className="form-group">
-                        <label> Til:</label>
-                        <input name="to" type="text" value={to} onChange={e => setTo(e.target.value)} className="form-control"/>
-                    </div>
-
-                    <div className="form-group">
-                        <label> Amount:</label>
-                        <input name="amount" type="text" value={amount} onChange={e => setAmount(e.target.value)} className="form-control"/>
-                    </div>
-
-                    <button type="submit" value="Submit" className="btn btn-dark">Vis Sertifikat</button>
-                </form>
-            </React.Fragment>
-    );
-
-}
+  }
+  
