@@ -2,7 +2,7 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm'
-  env: ['CI=true']
+  env: ['CI=true', 'PUBLIC_URL=https://storage.googleapis.com/effekt-gift-certificate/']
   args: ['run', 'build']
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', 'build/*', 'gs://effekt-gift-certificate/']
