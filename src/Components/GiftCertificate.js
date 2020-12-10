@@ -51,8 +51,9 @@ export default class GiftCertificateForm extends Component {
         var iframe = document.getElementById('pdf');
                         
         iframe.src = pdf.output('datauristring');
-  
     }
+
+    downl
     
      render() {
         return (
@@ -88,7 +89,7 @@ export default class GiftCertificateForm extends Component {
                         />
                     </div>
                 </form> 
-                <iframe className="col-12" id="pdf" height="780px"></iframe>
+                <iframe className="col-12" id="pdf" height="780px"></iframe>ggit pul
                 <button className="btn btn-dark col-12" id="downloadButton" onClick={this.generateCertificate}>Jeg er fornøyd, last ned sertifikat</button>
 
             </Container>
