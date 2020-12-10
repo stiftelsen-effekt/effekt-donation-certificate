@@ -20,7 +20,13 @@ export default class GiftCertificateForm extends Component {
                 },
                 amount: {
                   value: ''
-                }
+                }, 
+                organisation: {
+                    value: ''
+                }, 
+                occation: {
+                    value: ''
+                }, 
             }
         }
     }
