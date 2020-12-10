@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import jsPDF from 'jspdf';
-import exampleImg from '../GiftCertificates/HKI.js';
 import backgroundImg from '../GiftCertificates/MC.js'
 
 export default class GiftCertificateForm extends Component {
   
     constructor () {
         super()
+
+        this.pdf = new jsPDF('landscape');
       
         this.state = {
             formControls: {
@@ -36,29 +37,47 @@ export default class GiftCertificateForm extends Component {
               value
             }
           }
-        }, function(){this.generateCertificate()});
+        }, function(){
+            this.generateCertificate();
+            this.buildPDF();
+        });
     }
-
-    generateCertificate = () => {
-        var pdf = new jsPDF('landscape');
-  
-        pdf.addImage(backgroundImg, 'JPEG', 0, 0, 300, 220);
-  
-        pdf.text(67, 71, `${this.state.formControls.toName.value}`);
-  
-        pdf.text(67, 157, `${this.state.formControls.fromName.value}`);
-
+    buildPDF = () => {
         var iframe = document.getElementById('pdf');
                         
-        iframe.src = pdf.output('datauristring');
+        iframe.src = this.pdf.output('datauristring');
     }
 
-    downl
+    generateCertificate = () => {  
+        this.pdf.addImage(backgroundImg, 'JPEG', 0, 0, 300, 220);
+  
+        this.pdf.text(67, 71, `${this.state.formControls.toName.value}`);
+  
+        this.pdf.text(67, 157, `${this.state.formControls.fromName.value}`);
+    }
+
+
+    downloadCertificate = () => {
+        this.pdf.save();
+    }
     
      render() {
         return (
             <Container>
                 <form>
+                    <div className="form-group">
+                        <label for="organisations">Jeg har gitt til:</label>
+                        <select className="form-control" name="organisations" id="organisations" >
+                            <option value="giveWell">GiveWells tildelingsfond</option>
+                            <option value="malariaConsortium">Malaria Consortium</option>
+                            <option value="giveDirectly">GiveDirectly</option>
+                            <option value="giveDirectlyBorgerlønn">GiveDirectly Borgerlønn</option>
+                            <option value="SCIFoundation">SCI Foundation</option>
+                            <option value="helenKellerInternational">Helen Keller International</option>
+                            <option value="againstMalariaFoundation">Against Malaria Foundation</option>
+                        </select>
+                    </div>
+
                     <div className="form-group">
                         <label>Til:</label>
                         <input type="text" 
@@ -88,10 +107,16 @@ export default class GiftCertificateForm extends Component {
                             onChange={this.changeHandler} 
                         />
                     </div>
-                </form> 
-                <iframe className="col-12" id="pdf" height="780px"></iframe>
-                <button className="btn btn-dark col-12" id="downloadButton" onClick={this.generateCertificate}>Jeg er fornøyd, last ned sertifikat</button>
 
+                    <div className="form-group">
+                        <input type="radio" id="christmas" name="occation" value="christmas"></input>
+                        <label for="christmas">Julegave</label>
+                        <input type="radio" id="birthday" name="occation" value="birthday"></input>
+                        <label for="birthday">Bursdagsgave</label>
+                    </div>
+                </form> 
+                <iframe className="col-12" id="pdf" height="780px" title="Certificate"></iframe>
+                <button className="btn btn-dark col-12" id="downloadButton" onClick={this.downloadCertificate}>Jeg er fornøyd, last ned sertifikat</button>
             </Container>
 
         );
