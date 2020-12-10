@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import jsPDF from 'jspdf';
-import exampleImg from '../GiftCertificates/HKI.js'
+import exampleImg from '../GiftCertificates/HKI.js';
+import backgroundImg from '../GiftCertificates/MC.js'
 
 export default class GiftCertificateForm extends Component {
   
@@ -41,11 +42,11 @@ export default class GiftCertificateForm extends Component {
     generateCertificate = () => {
         var pdf = new jsPDF('landscape');
   
-        pdf.addImage(exampleImg, 'JPEG', 0, 0, 320, 220);
+        pdf.addImage(backgroundImg, 'JPEG', 0, 0, 300, 220);
   
-        pdf.text(100, 67, `${this.state.formControls.toName.value}`);
+        pdf.text(67, 71, `${this.state.formControls.toName.value}`);
   
-        pdf.text(193, 67, `${this.state.formControls.fromName.value}`);
+        pdf.text(67, 157, `${this.state.formControls.fromName.value}`);
 
         var iframe = document.getElementById('pdf');
                         
