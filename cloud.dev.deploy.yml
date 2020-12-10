@@ -3,9 +3,6 @@ steps:
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm'
   env: ['CI=true']
-  args: ['run', 'test']
-- name: 'gcr.io/cloud-builders/npm'
-  env: ['CI=true']
   args: ['run', 'build']
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', 'build/*', 'gs://effekt-gift-certificate-dev/']
