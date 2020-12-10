@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import jsPDF from 'jspdf';
-import exampleImg from '../GiftCertificates/HKI.js';
 import backgroundImg from '../GiftCertificates/MC.js'
 
 export default class GiftCertificateForm extends Component {
@@ -89,7 +88,7 @@ export default class GiftCertificateForm extends Component {
                         />
                     </div>
                 </form> 
-                <iframe className="col-12" id="pdf" height="780px"></iframe>
+                <iframe className="col-12" id="pdf" height="780px" title="Certificate" ></iframe>
                 <button className="btn btn-dark col-12" id="downloadButton" onClick={this.generateCertificate}>Jeg er fornøyd, last ned sertifikat</button>
 
             </Container>
