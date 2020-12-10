@@ -89,7 +89,7 @@ export default class GiftCertificateForm extends Component {
                         />
                     </div>
                 </form> 
-                <iframe className="col-12" id="pdf" height="780px"></iframe>ggit pul
+                <iframe className="col-12" id="pdf" height="780px"></iframe>
                 <button className="btn btn-dark col-12" id="downloadButton" onClick={this.generateCertificate}>Jeg er fornøyd, last ned sertifikat</button>
 
             </Container>
