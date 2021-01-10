@@ -5,7 +5,7 @@ import FormComponent from './Components/FormComponent';
 
 ReactDOM.render(
   <React.Fragment>
-      <FormComponent />
+      <FormComponent/>
   </React.Fragment>,
   document.getElementById('root')
 );

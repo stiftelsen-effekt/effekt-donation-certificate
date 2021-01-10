@@ -5,63 +5,76 @@ import backgroundImg from '../GiftCertificates/MC.js'
 
 export default class GiftCertificateForm extends Component {
   
-    constructor () {
+    constructor (props) {
         super()
 
         this.pdf = new jsPDF('landscape');
       
         this.state = {
-            formControls: {
-                fromName: {
-                  value: ''
-                },
-                toName: {
-                  value: ''
-                },
-                amount: {
-                  value: ''
-                }, 
-                organisation: {
-                    value: ''
-                }, 
-                occation: {
-                    value: ''
-                }, 
-            }
+            fromName: props.from,
+            toName: '',
+            amount: props.amount,
+            impact: '',
+            organisationId: props.orgId,
+            organisationName: this.setNameFromOrgId(props.orgId),
         }
+    }
+
+    componentDidMount(){
+        this.generateCertificate();
+        this.buildPDF();
     }
     
     changeHandler = event => {
-        const name = event.target.name;
-        const value = event.target.value;
-      
-        this.setState({
-          formControls: {
-              ...this.state.formControls,
-              [name]: {
-              ...this.state.formControls[name],
-              value
-            }
-          }
-        }, function(){
+        let nam = event.target.name;
+        let val = event.target.value;
+
+        this.setState({[nam]: val}, 
+        function (){
             this.generateCertificate();
             this.buildPDF();
         });
     }
-    buildPDF = () => {
-        var iframe = document.getElementById('pdf');
-                        
-        iframe.src = this.pdf.output('datauristring');
+
+    handleChange  = event => {
+        this.setState({organisationName: event.target.value});
     }
 
     generateCertificate = () => {  
         this.pdf.addImage(backgroundImg, 'JPEG', 0, 0, 300, 220);
   
-        this.pdf.text(67, 71, `${this.state.formControls.toName.value}`);
+        this.pdf.text(67, 71, `${this.state.fromName}`);
   
-        this.pdf.text(67, 157, `${this.state.formControls.fromName.value}`);
+        this.pdf.text(67, 157, `${this.state.toName}`);
+
     }
 
+    setNameFromOrgId = orgid => {
+        //add enum
+        switch (orgid) {
+            case "1":
+                return "malariaConsortium";
+            default:
+                break;
+        }
+    }
+
+    calculateImpactFor = (id, amount) => {
+        switch (1) {
+            case value:
+                
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    buildPDF = () => {
+        var iframe = document.getElementById('pdf');
+                        
+        iframe.src = this.pdf.output('datauristring');
+    }
 
     downloadCertificate = () => {
         this.pdf.save();
@@ -72,8 +85,8 @@ export default class GiftCertificateForm extends Component {
             <Container>
                 <form>
                     <div className="form-group">
-                        <label for="organisations">Jeg har gitt til:</label>
-                        <select className="form-control" name="organisations" id="organisations" >
+                        <label htmlFor="organisationName">Jeg har gitt til:</label>
+                        <select className="form-control" name="organisationName" id="organisationName" value={this.state.organisationName} onChange={this.changeHandler}>
                             <option value="giveWell">GiveWells tildelingsfond</option>
                             <option value="malariaConsortium">Malaria Consortium</option>
                             <option value="giveDirectly">GiveDirectly</option>
@@ -85,21 +98,21 @@ export default class GiftCertificateForm extends Component {
                     </div>
 
                     <div className="form-group">
-                        <label>Til:</label>
+                        <label>Fra:</label>
                         <input type="text" 
                             className="form-control"
-                            name="toName" 
-                            value={this.state.formControls.toName.value} 
+                            name="fromName" 
+                            value={this.state.fromName} 
                             onChange={this.changeHandler} 
                         />
                     </div>
 
                     <div className="form-group">
-                        <label>Fra:</label>
+                        <label>Til:</label>
                         <input type="text" 
                             className="form-control"
-                            name="fromName" 
-                            value={this.state.formControls.fromName.value} 
+                            name="toName" 
+                            value={this.state.toName} 
                             onChange={this.changeHandler} 
                         />
                     </div>
@@ -109,24 +122,14 @@ export default class GiftCertificateForm extends Component {
                         <input type="text" 
                             className="form-control"
                             name="amount" 
-                            value={this.state.formControls.amount.value} 
+                            value={this.state.amount} 
                             onChange={this.changeHandler} 
                         />
-                    </div>
-
-                    <div className="form-group">
-                        <input type="radio" id="christmas" name="occation" value="christmas"></input>
-                        <label for="christmas">Julegave</label>
-                        <input type="radio" id="birthday" name="occation" value="birthday"></input>
-                        <label for="birthday">Bursdagsgave</label>
                     </div>
                 </form> 
                 <iframe className="col-12" id="pdf" height="780px" title="Certificate"></iframe>
                 <button className="btn btn-dark col-12" id="downloadButton" onClick={this.downloadCertificate}>Jeg er fornøyd, last ned sertifikat</button>
             </Container>
-
         );
     }
-  
   }
-  
